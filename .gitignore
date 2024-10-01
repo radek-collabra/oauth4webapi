@@ -84,8 +84,8 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-build
-dist
+
+
 dist-browser-tests
 
 # Gatsby files

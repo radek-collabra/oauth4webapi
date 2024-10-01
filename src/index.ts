@@ -3085,10 +3085,15 @@ function validateOptionalIssuer(expected: string, result: Awaited<ReturnType<typ
 }
 
 function validateIssuer(expected: string, result: Awaited<ReturnType<typeof validateJwt>>) {
-  if (result.claims.iss !== expected) {
-    throw new OPE('unexpected JWT "iss" (issuer) claim value')
+  if (expected === 'https://login.microsoftonline.com/common/v2.0'
+    && result.claims.tid !== undefined
+    && result.claims.iss === `https://login.microsoftonline.com/${result.claims.tid}/v2.0`) {
+      return result;
   }
-  return result
+  if (result.claims.iss === expected) {
+    return result
+  }
+  throw new OPE('unexpected JWT "iss" (issuer) claim valuee')
 }
 
 const branded = new WeakSet<URLSearchParams>()
